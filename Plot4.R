@@ -1,0 +1,13 @@
+pdata<-read.table("household_power_consumption.txt", header = TRUE, sep=";")
+pdata1<-pdata[pdata$Date %in% c("1/2/2007", "2/2/2007"),]
+dataday <- strptime(paste(pdata1$Date, pdata1$Time, sep=" "), "%d/%m/%Y %H:%M:%S") 
+par(mfrow=c(2,2))
+plot(dataday, as.numeric(pdata1$Global_active_power), type="l", main = "Global Active Power Consumption", xlab="", ylab = "Global Active Power in Kilowatts")
+plot(dataday, as.numeric(pdata1$Voltage), type="l", main="Voltage Vs Datatime", xlab="Datetime", ylab="Voltage")
+plot(dataday, as.numeric(pdata1$Global_reactive_power), type="l", main="Global Reactive Pwer Vs Datetime", xlab = "datetime", ylab="Global Reactive power")
+plot(dataday, as.numeric(pdata1$Sub_metering_1), type="l", main= "Sub Metering Vs Datetime", ylab="Energy Submetering", xlab="")
+lines(dataday, as.numeric(pdata1$Sub_metering_2), type="l", col="green")
+lines(dataday, as.numeric(pdata1$Sub_metering_3), type="l", col="blue")
+legend("topright", c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), lty=1, lwd=2.5, col=c("black", "green", "blue"))
+dev.copy(png, file = "plot4.png", width=480, height=480)
+dev.off()
